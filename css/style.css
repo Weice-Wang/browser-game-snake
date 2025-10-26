@@ -1,0 +1,51 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+body {
+  color: white;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: rgb(43, 43, 93);
+}
+h1,
+h2 {
+  margin-top: 50px;
+}
+.board {
+  display: grid;
+  width: 500px;
+  height: 500px;
+  grid-template-columns: repeat(20, 1fr);
+  grid-template-rows: repeat(20, 1fr);
+  background-color: rgb(43, 43, 93);
+  margin: 0 auto;
+  margin-top: 50px;
+}
+
+.cell {
+  background-color: rgb(168, 200, 228);
+  border: 0.5px solid rgb(43, 43, 93);
+  border-radius: 10%;
+}
+
+.snake {
+  background-color: rgb(27, 28, 44);
+}
+
+.food {
+  background-color: rgb(240, 5, 5);
+}
+
+button {
+  width: 100px;
+  height: 30px;
+  border-radius: 20px;
+  text-align: center;
+  margin-top: 30px;
+}
