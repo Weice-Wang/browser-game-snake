@@ -30,16 +30,16 @@ h2 {
 
 .cell {
   background-color: rgb(168, 200, 228);
-  border: 0.5px solid rgb(43, 43, 93);
+  border: 0.3px solid rgb(43, 43, 93);
   border-radius: 10%;
 }
 
-.snake {
-  background-color: rgb(27, 28, 44);
+.food {
+  background-color: rgb(255, 1, 1);
 }
 
-.food {
-  background-color: rgb(240, 5, 5);
+.snake {
+  background-color: rgb(43, 43, 93);
 }
 
 button {
