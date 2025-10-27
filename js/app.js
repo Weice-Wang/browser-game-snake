@@ -13,6 +13,7 @@ let leftWall = [];
 let topWall = [];
 let rightWall = [];
 let bottomWall = [];
+let speed = 300;
 
 /*------------------------ Cached Element References ------------------------*/
 
@@ -50,7 +51,7 @@ function createCell() {
   for (let i = 0; i < 400; i++) {
     const cell = document.createElement("div");
     cell.classList.add("cell");
-    cell.textContent = i;
+    // cell.textContent = i;
     boardEl.appendChild(cell);
     cells.push(cell);
   }
@@ -98,6 +99,7 @@ function movingOnce() {
   } else {
     const head = snakeCell[snakeCell.length - 1];
     let newHead;
+
     // check for moving direction
     if (direction === "right") {
       newHead = head + 1;
@@ -112,7 +114,9 @@ function movingOnce() {
       newHead = head - 1;
     }
 
-    // check if the snake get the food
+    // check if the snake get the food.
+    // If it gets the food, score plus 1, push new head and update the message.
+    // If not getting it, push the newhead, delete old tail, keep the body as it is.
     if (newHead === food) {
       snakeCell.push(newHead);
       cells[newHead].classList.add("snake");
@@ -127,7 +131,9 @@ function movingOnce() {
       cells[oldtail].classList.remove("snake");
     }
 
-    // check if the snake hit the right, left, top and bottom wall
+    // check if the snake reached the right, left, top and bottom wall cells
+    // if reached, wait for 500ms, if user not moving the direction, game over, else keep moving.
+    // ??Is this the way to do it??
     if (rightWall.includes(newHead)) {
       setTimeout(() => {
         if (direction === "right") {
@@ -135,7 +141,7 @@ function movingOnce() {
           gameOver = true;
           updateMessage();
         } else return;
-      }, 490);
+      }, speed - 5);
     }
     if (leftWall.includes(newHead)) {
       setTimeout(() => {
@@ -144,7 +150,7 @@ function movingOnce() {
           gameOver = true;
           updateMessage();
         } else return;
-      }, 490);
+      }, speed - 5);
     }
     if (topWall.includes(newHead)) {
       setTimeout(() => {
@@ -153,7 +159,7 @@ function movingOnce() {
           gameOver = true;
           updateMessage();
         } else return;
-      }, 500);
+      }, speed);
     }
     if (bottomWall.includes(newHead)) {
       setTimeout(() => {
@@ -162,7 +168,10 @@ function movingOnce() {
           gameOver = true;
           updateMessage();
         } else return;
-      }, 500);
+      }, speed);
+    }
+    if (score > 2) {
+      changeMovingSpeed();
     }
   }
 }
@@ -183,9 +192,13 @@ function resetSnakeBody() {
 
 // set up the intervals
 function startMoving() {
-  intervalId ??= setInterval(movingOnce, 500);
+  intervalId ??= setInterval(movingOnce, speed);
 }
 
+function changeMovingSpeed() {
+  clearInterval(intervalId);
+  intervalId = setInterval(movingOnce, speed / 2);
+}
 // Stop the intervals
 function stopMoving() {
   clearInterval(intervalId);
@@ -218,5 +231,4 @@ document.addEventListener("keydown", (event) => {
   } else if (event.key === "ArrowLeft" && direction !== "right") {
     direction = "left";
   }
-  // startMoving();
 });
