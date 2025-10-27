@@ -51,7 +51,7 @@ function createCell() {
   for (let i = 0; i < 400; i++) {
     const cell = document.createElement("div");
     cell.classList.add("cell");
-    // cell.textContent = i;
+    cell.textContent = i;
     boardEl.appendChild(cell);
     cells.push(cell);
   }
@@ -195,10 +195,12 @@ function startMoving() {
   intervalId ??= setInterval(movingOnce, speed);
 }
 
+// change the moving speed;
 function changeMovingSpeed() {
   clearInterval(intervalId);
   intervalId = setInterval(movingOnce, speed / 2);
 }
+
 // Stop the intervals
 function stopMoving() {
   clearInterval(intervalId);
