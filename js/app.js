@@ -23,10 +23,23 @@ const startEl = document.querySelector("#start");
 const resetEl = document.querySelector("#reset");
 const messageEl = document.querySelector("#message");
 const bestScoreEl = document.querySelector("#bestscore");
+// audio element
+const clickAudioEl = document.querySelector("#btn");
+const foodAudioEl = document.querySelector("#getfood");
 
 /*-------------------------------- Functions --------------------------------*/
 
 // 1. reflect snake body and food and message to the Document
+
+const bgmMusic = new Audio("./asset/background music.mp3");
+bgmMusic.loop = true; // make it loop
+bgmMusic.volume = 0.2; // volume range is 0.0 to 1.0 (20% here)
+bgmMusic.play();
+
+const levelUpSound = new Audio("./asset/level up sound.wav");
+levelUpSound.volume = 0.6;
+levelUpSound.loop = false;
+
 render();
 
 function render() {
@@ -34,6 +47,7 @@ function render() {
   renderSnake();
   renderFood();
   updateMessage();
+  // bgmAudioEl.play();
 }
 
 // initialing the game, stop the interval
@@ -46,6 +60,8 @@ function init() {
   stopMoving();
   updateMessage();
   renderFood();
+  clickAudioEl.play();
+  bgMusic.play();
 }
 
 //create 20 x 20 cells
@@ -137,12 +153,22 @@ function movingOnce() {
   // If it gets the food, score plus 1, push new head and update the message.
   // If not getting it, push the newhead, delete old tail, keep the body as it is.
   if (newHead === food) {
+    foodAudioEl.play();
     snakeCell.push(newHead);
     cells[newHead].classList.add("snake");
     cells[food].classList.remove("food");
     renderFood();
     score++;
     updateMessage();
+    if (score === 3) {
+      // generate level up sound once score equals 3 and 6
+      levelUpSound.currentTime = 0;
+      levelUpSound.play();
+    }
+    if (score === 6) {
+      levelUpSound.currentTime = 0;
+      levelUpSound.play();
+    }
   } else {
     snakeCell.push(newHead);
     oldtail = snakeCell.shift();
@@ -158,6 +184,7 @@ function movingOnce() {
     changeMovingSpeed2();
   }
 
+  // store the bestScore
   if (score > bestScore) {
     bestScore = score;
   }
@@ -173,6 +200,7 @@ function resetSnakeBody() {
 
 // set up the intervals
 function startMoving() {
+  clickAudioEl.play();
   intervalId ??= setInterval(movingOnce, speed);
 }
 
@@ -196,7 +224,7 @@ function stopMoving() {
 //reflext updated message says score: 0,
 function updateMessage() {
   if (gameOver) {
-    messageEl.textContent = `Game Over! Your Score:${score}`;
+    messageEl.textContent = `Game Over! Score:${score}`;
     bestScoreEl.textContent = `Best Score: ${bestScore}`;
   } else {
     messageEl.textContent = `Score: ${score}`;
@@ -214,6 +242,7 @@ function checkForDirection(event) {
     direction = "left";
   }
 }
+
 /*----------------------------- Event Listeners -----------------------------*/
 // click start, snake move to the right
 startEl.addEventListener("click", startMoving); // no need to include the parethesis
