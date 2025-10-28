@@ -14,6 +14,7 @@ let topWall = [];
 let rightWall = [];
 let bottomWall = [];
 let speed = 300;
+let bestScore = 0;
 
 /*------------------------ Cached Element References ------------------------*/
 
@@ -21,6 +22,7 @@ const boardEl = document.querySelector(".board");
 const startEl = document.querySelector("#start");
 const resetEl = document.querySelector("#reset");
 const messageEl = document.querySelector("#message");
+const bestScoreEl = document.querySelector("#bestscore");
 
 /*-------------------------------- Functions --------------------------------*/
 
@@ -43,6 +45,7 @@ function init() {
   renderSnake();
   stopMoving();
   updateMessage();
+  renderFood();
 }
 
 //create 20 x 20 cells
@@ -51,7 +54,7 @@ function createCell() {
   for (let i = 0; i < 400; i++) {
     const cell = document.createElement("div");
     cell.classList.add("cell");
-    cell.textContent = i;
+    // cell.textContent = i;
     boardEl.appendChild(cell);
     cells.push(cell);
   }
@@ -88,99 +91,77 @@ function renderSnake() {
 
 //reflect food whitin the cells which is ramdomly pops out
 function renderFood() {
-  food = Math.floor(Math.random() * 400);
+  cells.forEach((cell) => cell.classList.remove("food"));
+  do {
+    food = Math.floor(Math.random() * 400);
+  } while (snakeCell.includes(food));
   cells[food].classList.add("food");
 }
 
-// snake need to respond to the up down right left
+// snake need to respond to different directions, wall collision, self collision, and grow once eat the food.
 function movingOnce() {
-  if (gameOver) {
+  if (gameOver) return;
+  const head = snakeCell[snakeCell.length - 1];
+  let newHead;
+  let oldtail;
+
+  // check for moving direction
+  if (direction === "right") {
+    newHead = head + 1;
+  }
+  if (direction === "down") {
+    newHead = head + 20;
+  }
+  if (direction === "up") {
+    newHead = head - 20;
+  }
+  if (direction === "left") {
+    newHead = head - 1;
+  }
+
+  // check for collison first before push newHead:
+  if (
+    (rightWall.includes(head) && direction === "right") || // right wall collision
+    (leftWall.includes(head) && direction === "left") || // left wall collision
+    newHead < 0 || // top wall collision
+    newHead > cells.length || // bottom wall collision
+    snakeCell.includes(newHead) // self collison
+  ) {
+    stopMoving();
+    gameOver = true;
+    updateMessage();
     return;
+  }
+
+  // check if the snake get the food.
+  // If it gets the food, score plus 1, push new head and update the message.
+  // If not getting it, push the newhead, delete old tail, keep the body as it is.
+  if (newHead === food) {
+    snakeCell.push(newHead);
+    cells[newHead].classList.add("snake");
+    cells[food].classList.remove("food");
+    renderFood();
+    score++;
+    updateMessage();
   } else {
-    const head = snakeCell[snakeCell.length - 1];
-    let newHead;
+    snakeCell.push(newHead);
+    oldtail = snakeCell.shift();
+    cells[newHead].classList.add("snake");
+    cells[oldtail].classList.remove("snake");
+  }
 
-    // check for moving direction
-    if (direction === "right") {
-      newHead = head + 1;
-    }
-    if (direction === "down") {
-      newHead = head + 20;
-    }
-    if (direction === "up") {
-      newHead = head - 20;
-    }
-    if (direction === "left") {
-      newHead = head - 1;
-    }
+  // change speed
+  if (score >= 3) {
+    changeMovingSpeed();
+  }
+  if (score >= 6) {
+    changeMovingSpeed2();
+  }
 
-    // check if the snake get the food.
-    // If it gets the food, score plus 1, push new head and update the message.
-    // If not getting it, push the newhead, delete old tail, keep the body as it is.
-    if (newHead === food) {
-      snakeCell.push(newHead);
-      cells[newHead].classList.add("snake");
-      cells[food].classList.remove("food");
-      renderFood();
-      score++;
-      updateMessage();
-    } else {
-      snakeCell.push(newHead);
-      const oldtail = snakeCell.shift();
-      cells[newHead].classList.add("snake");
-      cells[oldtail].classList.remove("snake");
-    }
-
-    // check if the snake reached the right, left, top and bottom wall cells
-    // if reached, wait for 500ms, if user not moving the direction, game over, else keep moving.
-    // ??Is this the way to do it??
-    if (rightWall.includes(newHead)) {
-      setTimeout(() => {
-        if (direction === "right") {
-          stopMoving();
-          gameOver = true;
-          updateMessage();
-        } else return;
-      }, speed - 5);
-    }
-    if (leftWall.includes(newHead)) {
-      setTimeout(() => {
-        if (direction === "left") {
-          stopMoving();
-          gameOver = true;
-          updateMessage();
-        } else return;
-      }, speed - 5);
-    }
-    if (topWall.includes(newHead)) {
-      setTimeout(() => {
-        if (direction === "up") {
-          stopMoving();
-          gameOver = true;
-          updateMessage();
-        } else return;
-      }, speed);
-    }
-    if (bottomWall.includes(newHead)) {
-      setTimeout(() => {
-        if (direction === "down") {
-          stopMoving();
-          gameOver = true;
-          updateMessage();
-        } else return;
-      }, speed);
-    }
-    if (score > 2) {
-      changeMovingSpeed();
-    }
+  if (score > bestScore) {
+    bestScore = score;
   }
 }
-
-// check if the snake newhead equals to any values in th sankeCells, collision to it self
-
-// if (snakeCell.includes(newHead)) {
-//   gameOver = true;
-// }
 
 // reset the snake body to default position.
 function resetSnakeBody() {
@@ -200,6 +181,11 @@ function changeMovingSpeed() {
   clearInterval(intervalId);
   intervalId = setInterval(movingOnce, speed / 2);
 }
+// change the moving speed;
+function changeMovingSpeed2() {
+  clearInterval(intervalId);
+  intervalId = setInterval(movingOnce, speed / 2 / 2);
+}
 
 // Stop the intervals
 function stopMoving() {
@@ -210,9 +196,22 @@ function stopMoving() {
 //reflext updated message says score: 0,
 function updateMessage() {
   if (gameOver) {
-    messageEl.textContent = `Game Over! Your Score is ${score}`;
+    messageEl.textContent = `Game Over! Your Score:${score}`;
+    bestScoreEl.textContent = `Best Score: ${bestScore}`;
   } else {
     messageEl.textContent = `Score: ${score}`;
+  }
+}
+
+function checkForDirection(event) {
+  if (event.key === "ArrowDown" && direction !== "up") {
+    direction = "down";
+  } else if (event.key === "ArrowUp" && direction !== "down") {
+    direction = "up";
+  } else if (event.key === "ArrowRight" && direction !== "left") {
+    direction = "right";
+  } else if (event.key === "ArrowLeft" && direction !== "right") {
+    direction = "left";
   }
 }
 /*----------------------------- Event Listeners -----------------------------*/
@@ -223,14 +222,4 @@ startEl.addEventListener("click", startMoving); // no need to include the pareth
 resetEl.addEventListener("click", init);
 
 // add key listener to control directions
-document.addEventListener("keydown", (event) => {
-  if (event.key === "ArrowDown" && direction !== "up") {
-    direction = "down";
-  } else if (event.key === "ArrowUp" && direction !== "down") {
-    direction = "up";
-  } else if (event.key === "ArrowRight" && direction !== "left") {
-    direction = "right";
-  } else if (event.key === "ArrowLeft" && direction !== "right") {
-    direction = "left";
-  }
-});
+document.addEventListener("keydown", checkForDirection);
