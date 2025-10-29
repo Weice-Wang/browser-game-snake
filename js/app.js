@@ -275,6 +275,7 @@ howBtnEl.addEventListener("click", () => {
   instructions.classList.add("active");
   audios.click.play();
 });
+
 closeBtnEl.addEventListener("click", () => {
   instructions.classList.remove("active");
   audios.click.play();
@@ -284,10 +285,10 @@ closeBtnEl.addEventListener("click", () => {
 
 // adjusting the audio
 audios.bgm.loop = true;
-audios.bgm.volume = 0.1;
+audios.bgm.volume = 0.4;
 
 audios.gameOver.loop = false;
-audios.gameOver.volume = 0.1;
+audios.gameOver.volume = 1;
 
 audios.levelUp.volume = 0.6;
 audios.levelUp.loop = false;

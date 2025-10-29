@@ -18,23 +18,23 @@ body {
   min-height: 100vh;
   padding: 24px 16px;
   background-image: url("https://static.vecteezy.com/system/resources/previews/049/987/607/large_2x/parallax-scrolling-space-planet-game-background-vector.jpg");
-  /* background-size: cover;
-  background-position: center; */
+  background-size: cover;
+  background-position: center;
 }
 
 .w {
   width: 530px;
-  background-color: #4c4a78;
+  background-color: #453f7e;
   display: flex;
   flex-direction: column;
   justify-content: left;
   align-items: center;
-  border-radius: 5%;
+  border-radius: 2%;
   margin-top: 50px;
 }
 
 .board {
-  background-color: #c2dde4;
+  background-color: #dcf9ff;
   display: grid;
   width: 500px;
   height: 500px;
@@ -45,8 +45,8 @@ body {
 }
 
 .cell {
-  background-color: #c2dde4;
-  border: 0.1px solid #d1edf2;
+  background-color: #daf4f9;
+  border: 0.1px solid #ffffff;
   border-radius: 20%;
 }
 
@@ -56,7 +56,7 @@ body {
 }
 
 .snake {
-  background-color: #2323a5;
+  background-color: #3131c9;
 }
 
 button {
@@ -72,16 +72,18 @@ button {
   border: 2px solid rgb(49, 49, 49);
   outline: none;
   font-size: 0.8em;
+  margin-bottom: 20px;
 }
 
 button:hover {
-  color: #6d60f4;
-  box-shadow: 0 0 5px 3px #7e79bb;
+  color: #00ffff;
+  box-shadow: 0 0 12px #00ffff;
+  transform: scale(1.05);
   transition: 0.3s;
-  transform: scale(1.02);
 }
 
 h1 {
+  font-size: 4em;
   margin-top: 50px;
   letter-spacing: 3px;
 }
@@ -138,4 +140,44 @@ h3 {
   margin-top: 20px;
   padding: 8px 16px;
   cursor: pointer;
+}
+
+/* shadowing the object */
+.board {
+  box-shadow: 0 0 50px rgba(252, 181, 252, 0.5);
+}
+
+.snake {
+  box-shadow: 0 0 6px #4b5eff;
+}
+.food {
+  box-shadow: 0 0 8px #ff4b4b;
+}
+
+.snake {
+  animation: float 2s ease-in-out infinite alternate;
+}
+
+@keyframes float {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(-2px);
+  }
+}
+
+.food {
+  animation: pulse 1.5s infinite alternate;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(1.2);
+    opacity: 1;
+  }
 }
