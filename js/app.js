@@ -15,6 +15,7 @@ let rightWall = [];
 let bottomWall = [];
 let speed = 300;
 let bestScore = 0;
+let isMuted = false;
 
 /*------------------------ Cached Element References ------------------------*/
 
@@ -23,31 +24,41 @@ const startEl = document.querySelector("#start");
 const resetEl = document.querySelector("#reset");
 const messageEl = document.querySelector("#message");
 const bestScoreEl = document.querySelector("#bestscore");
+
 // audio element
-const clickAudioEl = document.querySelector("#btn");
-const foodAudioEl = document.querySelector("#getfood");
+const musicBtnEl = document.querySelector("#muteBtn");
+const audios = {
+  click: document.querySelector("#btn"),
+  food: document.querySelector("#getfood"),
+  bgm: document.querySelector("#bgm"),
+  levelUp: document.querySelector("#levelUpSound"),
+  gameOver: document.querySelector("#gameOverSound"),
+};
+
+// const audios.click = document.querySelector("#btn");
+// const audios.food = document.querySelector("#getfood");
+// const bgmEl = document.querySelector("#bgm");
+// const audio.levelUp = document.querySelector("#levelUpSound");
 
 /*-------------------------------- Functions --------------------------------*/
 
-// 1. reflect snake body and food and message to the Document
-
-const bgmMusic = new Audio("./asset/background music.mp3");
-bgmMusic.loop = true; // make it loop
-bgmMusic.volume = 0.2; // volume range is 0.0 to 1.0 (20% here)
-bgmMusic.play();
-
-const levelUpSound = new Audio("./asset/level up sound.wav");
-levelUpSound.volume = 0.6;
-levelUpSound.loop = false;
-
-render();
-
+// 1. render the game - reflect snake body and food and message to the Document
 function render() {
   createCell();
   renderSnake();
   renderFood();
   updateMessage();
-  // bgmAudioEl.play();
+}
+render();
+
+// 2. check if the music is on or off
+function toggleMute() {
+  audios.click.play();
+  isMuted = !isMuted;
+  Object.values(audios).forEach((audio) => {
+    audio.muted = isMuted;
+  });
+  musicBtnEl.textContent = isMuted ? "🔇 Music Off" : "🔊 Music On";
 }
 
 // initialing the game, stop the interval
@@ -60,8 +71,7 @@ function init() {
   stopMoving();
   updateMessage();
   renderFood();
-  clickAudioEl.play();
-  bgMusic.play();
+  audios.click.play();
 }
 
 //create 20 x 20 cells
@@ -92,10 +102,10 @@ for (let i = 0; i < cells.length; i++) {
     rightWall.push(i);
   }
 }
-console.log(leftWall);
-console.log(rightWall);
-console.log(topWall);
-console.log(bottomWall);
+// console.log(leftWall);
+// console.log(rightWall);
+// console.log(topWall);
+// console.log(bottomWall);
 createWall();
 
 //reflect snake body positon to the DOM, right now is [200, 201, 202]
@@ -105,12 +115,12 @@ function renderSnake() {
   });
 }
 
-//reflect food whitin the cells which is ramdomly pops out
+//reflect food whitin the cells which is ramdomly pops out,
 function renderFood() {
   cells.forEach((cell) => cell.classList.remove("food"));
   do {
     food = Math.floor(Math.random() * 400);
-  } while (snakeCell.includes(food));
+  } while (snakeCell.includes(food)); // make sure the food is not pops on the snake body
   cells[food].classList.add("food");
 }
 
@@ -146,6 +156,7 @@ function movingOnce() {
     stopMoving();
     gameOver = true;
     updateMessage();
+    audios.gameOver.play();
     return;
   }
 
@@ -153,7 +164,7 @@ function movingOnce() {
   // If it gets the food, score plus 1, push new head and update the message.
   // If not getting it, push the newhead, delete old tail, keep the body as it is.
   if (newHead === food) {
-    foodAudioEl.play();
+    audios.food.play();
     snakeCell.push(newHead);
     cells[newHead].classList.add("snake");
     cells[food].classList.remove("food");
@@ -162,12 +173,12 @@ function movingOnce() {
     updateMessage();
     if (score === 3) {
       // generate level up sound once score equals 3 and 6
-      levelUpSound.currentTime = 0;
-      levelUpSound.play();
+      // audios.levelUp.currentTime = 0;
+      audios.levelUp.play();
     }
     if (score === 6) {
-      levelUpSound.currentTime = 0;
-      levelUpSound.play();
+      // audios.levelUp.currentTime = 0;
+      audios.levelUp.play();
     }
   } else {
     snakeCell.push(newHead);
@@ -200,7 +211,8 @@ function resetSnakeBody() {
 
 // set up the intervals
 function startMoving() {
-  clickAudioEl.play();
+  audios.click.play();
+  audios.bgm.play();
   intervalId ??= setInterval(movingOnce, speed);
 }
 
@@ -252,3 +264,25 @@ resetEl.addEventListener("click", init);
 
 // add key listener to control directions
 document.addEventListener("keydown", checkForDirection);
+
+// click mute button
+musicBtnEl.addEventListener("click", toggleMute);
+
+/*----------------------------- Additonal Elements -----------------------------*/
+
+// adjusting the audio
+audios.bgm.loop = true;
+audios.bgm.volume = 0.1;
+
+audios.gameOver.loop = false;
+audios.gameOver.volume = 0.1;
+
+audios.levelUp.volume = 0.6;
+audios.levelUp.loop = false;
+
+// const audios.click = document.querySelector("#btn");
+// const audios.food = document.querySelector("#getfood");
+// const bgmEl = document.querySelector("#bgm");
+// const audio.levelUp = document.querySelector("#levelUpSound");
+// const GameOverSoundEl = document.querySelector("#gameOverSound");
+// const musicBtnEl

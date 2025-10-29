@@ -10,10 +10,15 @@ body {
   font-family: Bungee Inline, sans-serif;
   letter-spacing: 1px;
   display: flex;
+  justify-content: flex-start;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  min-height: 100vh;
+  padding: 24px 16px;
   background-image: url("https://static.vecteezy.com/system/resources/previews/049/987/607/large_2x/parallax-scrolling-space-planet-game-background-vector.jpg");
+  /* background-size: cover;
+  background-position: center; */
 }
 
 .w {
@@ -40,34 +45,36 @@ body {
 .cell {
   background-color: #c2dde4;
   border: 0.1px solid #d1edf2;
-  /* border-radius: 8%; */
+  border-radius: 20%;
 }
 
 .food {
-  background-color: #e0425a;
+  background-color: #db3b53;
+  border: none;
 }
 
 .snake {
-  background-color: #16167c;
+  background-color: #2323a5;
 }
 
 button {
   font-family: inherit;
   background-color: rgb(237, 238, 240);
   color: rgb(15, 15, 37);
-  width: 100px;
+  width: 25%;
   height: 30px;
   border-radius: 20px;
   text-align: center;
-  margin: 20px;
+  margin: 10px;
   cursor: pointer;
   border: 2px solid rgb(49, 49, 49);
   outline: none;
+  font-size: 0.8em;
 }
 
 button:hover {
-  color: #c9374c;
-  box-shadow: 0 0 5px 2px #5b4a96;
+  color: #7e79bb;
+  box-shadow: 0 0 5px 3px #7e79bb;
   transition: 0.3s;
   transform: scale(1.02);
 }
@@ -83,6 +90,13 @@ h1 {
   flex-direction: row;
   justify-content: space-between;
   padding: 20px 20px 5px 20px;
+}
+.footer {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  padding: 10px;
 }
 
 h3 {
