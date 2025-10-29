@@ -5,14 +5,14 @@ const width = 20;
 /*-------------------------------- Variables --------------------------------*/
 let direction = "right"; // default setting to right
 let food;
-let snakeCell = [200, 201, 202]; // default position
+let snakeCells = [200, 201, 202]; // default position
 let score = 0;
 let intervalId;
 let gameOver = false;
-let leftWall = [];
-let topWall = [];
-let rightWall = [];
-let bottomWall = [];
+let leftWallCells = [];
+let topWallCells = [];
+let rightWallCells = [];
+let bottomWallCells = [];
 let speed = 300;
 let bestScore = 0;
 let isMuted = false;
@@ -24,6 +24,9 @@ const startEl = document.querySelector("#start");
 const resetEl = document.querySelector("#reset");
 const messageEl = document.querySelector("#message");
 const bestScoreEl = document.querySelector("#bestscore");
+const howBtnEl = document.querySelector("#how");
+const closeBtnEl = document.querySelector("#closeInstructions");
+const instructions = document.querySelector(".instructions");
 
 // audio element
 const musicBtnEl = document.querySelector("#muteBtn");
@@ -42,7 +45,7 @@ const audios = {
 
 /*-------------------------------- Functions --------------------------------*/
 
-// 1. render the game - reflect snake body and food and message to the Document
+// render the game - reflect snake body and food and message to the Document
 function render() {
   createCell();
   renderSnake();
@@ -51,7 +54,7 @@ function render() {
 }
 render();
 
-// 2. check if the music is on or off
+// check if the music is on or off
 function toggleMute() {
   audios.click.play();
   isMuted = !isMuted;
@@ -74,7 +77,7 @@ function init() {
   audios.click.play();
 }
 
-//create 20 x 20 cells
+// create 20 x 20 cells
 function createCell() {
   if (cells.length > 0) return;
   for (let i = 0; i < 400; i++) {
@@ -86,48 +89,48 @@ function createCell() {
   }
 }
 
-//create wall bounday for later use.
+// create wall bounday for the game over condition.
 function createWall() {}
 for (let i = 0; i < cells.length; i++) {
   if (i % width === 0) {
-    leftWall.push(i);
+    leftWallCells.push(i);
   }
   if (i < width) {
-    topWall.push(i);
+    topWallCells.push(i);
   }
   if (i >= cells.length - width) {
-    bottomWall.push(i);
+    bottomWallCells.push(i);
   }
   if ((i + 1) % width === 0) {
-    rightWall.push(i);
+    rightWallCells.push(i);
   }
 }
-// console.log(leftWall);
-// console.log(rightWall);
-// console.log(topWall);
-// console.log(bottomWall);
 createWall();
+// console.log(leftWallCells);
+// console.log(rightWallCells);
+// console.log(topWallCells);
+// console.log(bottomWallCells);
 
-//reflect snake body positon to the DOM, right now is [200, 201, 202]
+// reflect snake body positon to the DOM, right now is [200, 201, 202]
 function renderSnake() {
-  snakeCell.forEach((snake) => {
+  snakeCells.forEach((snake) => {
     cells[snake].classList.add("snake");
   });
 }
 
-//reflect food whitin the cells which is ramdomly pops out,
+// reflect food whitin the cells which is ramdomly pops out,
 function renderFood() {
   cells.forEach((cell) => cell.classList.remove("food"));
   do {
     food = Math.floor(Math.random() * 400);
-  } while (snakeCell.includes(food)); // make sure the food is not pops on the snake body
+  } while (snakeCells.includes(food)); // make sure the food is not pops on the snake body
   cells[food].classList.add("food");
 }
 
 // snake need to respond to different directions, wall collision, self collision, and grow once eat the food.
 function movingOnce() {
   if (gameOver) return;
-  const head = snakeCell[snakeCell.length - 1];
+  const head = snakeCells[snakeCells.length - 1];
   let newHead;
   let oldtail;
 
@@ -147,11 +150,11 @@ function movingOnce() {
 
   // check for collison first before push newHead:
   if (
-    (rightWall.includes(head) && direction === "right") || // right wall collision
-    (leftWall.includes(head) && direction === "left") || // left wall collision
+    (rightWallCells.includes(head) && direction === "right") || // right wall collision
+    (leftWallCells.includes(head) && direction === "left") || // left wall collision
     newHead < 0 || // top wall collision
     newHead > cells.length || // bottom wall collision
-    snakeCell.includes(newHead) // self collison
+    snakeCells.includes(newHead) // self collison
   ) {
     stopMoving();
     gameOver = true;
@@ -165,7 +168,7 @@ function movingOnce() {
   // If not getting it, push the newhead, delete old tail, keep the body as it is.
   if (newHead === food) {
     audios.food.play();
-    snakeCell.push(newHead);
+    snakeCells.push(newHead);
     cells[newHead].classList.add("snake");
     cells[food].classList.remove("food");
     renderFood();
@@ -181,8 +184,8 @@ function movingOnce() {
       audios.levelUp.play();
     }
   } else {
-    snakeCell.push(newHead);
-    oldtail = snakeCell.shift();
+    snakeCells.push(newHead);
+    oldtail = snakeCells.shift();
     cells[newHead].classList.add("snake");
     cells[oldtail].classList.remove("snake");
   }
@@ -206,7 +209,7 @@ function resetSnakeBody() {
   cells.forEach((cell) => {
     cell.classList.remove("snake");
   });
-  snakeCell = [200, 201, 202];
+  snakeCells = [200, 201, 202];
 }
 
 // set up the intervals
@@ -214,6 +217,11 @@ function startMoving() {
   audios.click.play();
   audios.bgm.play();
   intervalId ??= setInterval(movingOnce, speed);
+}
+// Stop the intervals
+function stopMoving() {
+  clearInterval(intervalId);
+  intervalId = null;
 }
 
 // change the moving speed;
@@ -227,12 +235,6 @@ function changeMovingSpeed2() {
   intervalId = setInterval(movingOnce, speed / 2 / 2);
 }
 
-// Stop the intervals
-function stopMoving() {
-  clearInterval(intervalId);
-  intervalId = null;
-}
-
 //reflext updated message says score: 0,
 function updateMessage() {
   if (gameOver) {
@@ -242,7 +244,7 @@ function updateMessage() {
     messageEl.textContent = `Score: ${score}`;
   }
 }
-
+//checking which direction the user click:
 function checkForDirection(event) {
   if (event.key === "ArrowDown" && direction !== "up") {
     direction = "down";
@@ -267,6 +269,16 @@ document.addEventListener("keydown", checkForDirection);
 
 // click mute button
 musicBtnEl.addEventListener("click", toggleMute);
+
+// click how to play insturctions:
+howBtnEl.addEventListener("click", () => {
+  instructions.classList.add("active");
+  audios.click.play();
+});
+closeBtnEl.addEventListener("click", () => {
+  instructions.classList.remove("active");
+  audios.click.play();
+});
 
 /*----------------------------- Additonal Elements -----------------------------*/
 
