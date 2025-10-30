@@ -79,8 +79,8 @@ button {
 }
 
 button:hover {
-  color: #febd17;
-  box-shadow: 0 0 12px #ffbb0f;
+  color: #ff45c1;
+  box-shadow: 0 0 12px #ff45c1;
   transform: scale(1.05);
   transition: 0.3s;
 }
@@ -140,16 +140,15 @@ h3 {
 }
 
 .instructions button:hover {
-  color: #ffbb0f;
+  color: #ff45c1;
   transform: scale(1.05);
   transition: 0.3s;
 }
 
 .food {
-  background-color: #ffaa00;
-  border-radius: 50%;
+  background-color: #ff45c1;
   transition: transform 0.3s ease;
-  box-shadow: 0 0 10px #ffbb00;
+  box-shadow: 0 0 5px #ff87d7;
   border: none;
 }
 
