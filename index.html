@@ -16,12 +16,17 @@
 </head>
 
 <body>
+  <!-- 1. title -->
   <h1>Space Snake</h1>
+
+  <!-- 2. working area -->
   <div class="w">
+    <!-- 2.1 header -->
     <div class="header">
       <h3 id="message"></h3>
       <h3 id="bestscore"></h3>
     </div>
+    <!-- 2.2 board -->
     <div class="board">
       <div class="instructions">
         <h4>Press "Start" to begin</h4>
@@ -30,18 +35,21 @@
         <button id="closeInstructions">X Close</button>
       </div>
     </div>
+    <!-- 2.3 footer -->
     <div class="footer">
       <button id="start">Start</button>
       <button id="reset">Reset</button>
       <button id="how">How to play</button>
       <button id="muteBtn">🔊 Music On</button>
     </div>
+  </div>
 
-    <audio id='btn' src="./asset/click.wav"></audio>
-    <audio id='getfood' src="./asset/food2.mp3"></audio>
-    <audio id='bgm' src="./asset/bgm2.mp3"></audio>
-    <audio id='gameOverSound' src="./asset/gameover2.mp3"></audio>
-    <audio id='levelUpSound' src="./asset/changespeed2.mp3"></audio>
+  <!-- 3. audios -->
+  <audio id='btn' src="./asset/click.wav"></audio>
+  <audio id='getfood' src="./asset/food2.mp3"></audio>
+  <audio id='bgm' src="./asset/bgm2.mp3"></audio>
+  <audio id='gameOverSound' src="./asset/gameover2.mp3"></audio>
+  <audio id='levelUpSound' src="./asset/changespeed2.mp3"></audio>
 </body>
 
 </html>

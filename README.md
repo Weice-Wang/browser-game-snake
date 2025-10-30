@@ -10,7 +10,7 @@ Space Snake is a twist on the classic Snake game — our curious snake has accid
 
 I created this game because I wanted to bring a fresh, visually fun theme to a well-known classic while practicing JavaScript, HTML and CSS.
 
-## 1. Getting started:
+## 2. Getting started:
 
 - Deployed game link: [Space Snake][example]
 
@@ -77,7 +77,7 @@ I created this game because I wanted to bring a fresh, visually fun theme to a w
 > - Update Display Function: Refresh stats on screen each loop or button click.
 > - Intial() when clicking the reset button. Resets all stats to starting values and restarts the loop.
 
-## 2. Attributions:
+## 3. Attributions:
 
 Background image: [vecteezy][example]
 
@@ -87,14 +87,14 @@ Sound effects audios: [pixabay][example]
 
 [example]: https://pixabay.com
 
-## 3. Technologies used:
+## 4. Technologies used:
 
-- JavaScript- game logic, including score and best score system, movement control, winning and lossing situations.
+- JavaScript- game logic, including score and best score system, movement control, win/lose condition.
 - HTML - canvas structure, elements and audios.
 - CSS - styling, layout, and space-themed design.
 - Audio – imported sound effects for feedback and level-ups
 
-## 4. Next Steps (Future Enhancements):
+## 5. Next Steps (Future Enhancements):
 
 - Adding more fun floating effects to grenerate feel of the zero gravity.
 - Introduce debris or asteroids after the score reaches 10。

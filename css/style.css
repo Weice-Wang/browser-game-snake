@@ -157,6 +157,7 @@ h3 {
   box-shadow: 0 0 50px rgba(252, 181, 252, 0.5);
 }
 
+/* add floating effects to the snake and food  */
 .snake {
   animation: float 2s ease-in-out infinite alternate;
 }
