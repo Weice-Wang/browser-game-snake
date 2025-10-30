@@ -28,6 +28,11 @@ h1 {
     0 0 20px rgba(194, 181, 252, 0.6), 0 0 40px rgba(194, 181, 252, 0.4);
 }
 
+#message,
+#bestscore {
+  text-shadow: 0px 3px 2px rgb(18, 12, 57);
+}
+
 .w {
   width: 530px;
   background-color: #453f7e;
@@ -70,6 +75,7 @@ button {
   outline: none;
   font-size: 0.8em;
   margin-bottom: 20px;
+  box-shadow: 0 2px 5px 5px rgb(52, 52, 115);
 }
 
 button:hover {

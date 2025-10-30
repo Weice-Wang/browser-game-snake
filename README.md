@@ -34,11 +34,9 @@ I created this game because I wanted to bring a fresh, visually fun theme to a w
 >
 > 2. Define the app’s state variables, but don’t assign values to them.
 >
-> - Create a variable for the game refresh timer (e.g., setInterval()).
 > - Create a variable for the snake body using array. Once eaten, using snake.push().
 > - Create a variable for the food position for it to randomly pop out.
 > - Create a variable for the moving directions.
-> - Create a variable for the snake moving and set it to false.
 > - Create a variable for the score equal to 0. Once the food is reached, the score plus one.
 >
 > 3.  Initialize Game
