@@ -24,7 +24,10 @@ h1 {
   font-size: 4em;
   margin-top: 50px;
   letter-spacing: 3px;
+  text-shadow: 0px 8px 3px rgb(24, 17, 72), 0 0 10px rgba(194, 181, 252, 0.8),
+    0 0 20px rgba(194, 181, 252, 0.6), 0 0 40px rgba(194, 181, 252, 0.4);
 }
+
 .w {
   width: 530px;
   background-color: #453f7e;
@@ -53,15 +56,6 @@ h1 {
   border-radius: 20%;
 }
 
-.food {
-  background-color: #eb3f59;
-  border: none;
-}
-
-.snake {
-  background-color: #3131c9;
-}
-
 button {
   font-family: inherit;
   background-color: rgb(237, 238, 240);
@@ -72,15 +66,15 @@ button {
   text-align: center;
   margin: 10px;
   cursor: pointer;
-  border: 2px solid rgb(49, 49, 49);
+  border: 1px solid #453f7e;
   outline: none;
   font-size: 0.8em;
   margin-bottom: 20px;
 }
 
 button:hover {
-  color: #00ffff;
-  box-shadow: 0 0 12px #00ffff;
+  color: #febd17;
+  box-shadow: 0 0 12px #ffbb0f;
   transform: scale(1.05);
   transition: 0.3s;
 }
@@ -140,21 +134,27 @@ h3 {
 }
 
 .instructions button:hover {
-  color: #00ffff;
+  color: #ffbb0f;
   transform: scale(1.05);
   transition: 0.3s;
+}
+
+.food {
+  background-color: #ffaa00;
+  border-radius: 50%;
+  transition: transform 0.3s ease;
+  box-shadow: 0 0 10px #ffbb00;
+  border: none;
+}
+
+.snake {
+  background-color: #3131c9;
+  box-shadow: 0 0 6px #4b5eff;
 }
 
 /* shadowing the object */
 .board {
   box-shadow: 0 0 50px rgba(252, 181, 252, 0.5);
-}
-
-.snake {
-  box-shadow: 0 0 6px #4b5eff;
-}
-.food {
-  box-shadow: 0 0 8px #ff4b4b;
 }
 
 .snake {

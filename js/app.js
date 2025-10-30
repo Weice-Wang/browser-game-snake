@@ -4,6 +4,7 @@ const width = 20;
 
 /*-------------------------------- Variables --------------------------------*/
 let direction = "right"; // default setting to right
+let directionChange = false; // add to avoid direction change before snake move.
 let food;
 let snakeCells = [200, 201, 202]; // default position
 let score = 0;
@@ -120,6 +121,7 @@ function renderFood() {
 
 // snake need to respond to different directions, wall collision, self collision, and grow once eat the food.
 function movingOnce() {
+  directionChange = false; // this to control user change direction before snake move.
   if (gameOver) return;
   const head = snakeCells[snakeCells.length - 1];
   let newHead;
@@ -144,7 +146,7 @@ function movingOnce() {
     (rightWallCells.includes(head) && direction === "right") || // right wall collision
     (leftWallCells.includes(head) && direction === "left") || // left wall collision
     newHead < 0 || // top wall collision
-    newHead > cells.length || // bottom wall collision
+    newHead >= cells.length || // bottom wall collision
     snakeCells.includes(newHead) // self collison
   ) {
     stopMoving();
@@ -235,14 +237,19 @@ function updateMessage() {
 }
 //checking which direction the user click:
 function checkForDirection(event) {
+  if (directionChange) return;
   if (event.key === "ArrowDown" && direction !== "up") {
     direction = "down";
+    directionChange = true;
   } else if (event.key === "ArrowUp" && direction !== "down") {
     direction = "up";
+    directionChange = true;
   } else if (event.key === "ArrowRight" && direction !== "left") {
     direction = "right";
+    directionChange = true;
   } else if (event.key === "ArrowLeft" && direction !== "right") {
     direction = "left";
+    directionChange = true;
   }
 }
 
