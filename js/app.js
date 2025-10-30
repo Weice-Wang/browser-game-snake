@@ -38,11 +38,6 @@ const audios = {
   gameOver: document.querySelector("#gameOverSound"),
 };
 
-// const audios.click = document.querySelector("#btn");
-// const audios.food = document.querySelector("#getfood");
-// const bgmEl = document.querySelector("#bgm");
-// const audio.levelUp = document.querySelector("#levelUpSound");
-
 /*-------------------------------- Functions --------------------------------*/
 
 // render the game - reflect snake body and food and message to the Document
@@ -106,10 +101,6 @@ for (let i = 0; i < cells.length; i++) {
   }
 }
 createWall();
-// console.log(leftWallCells);
-// console.log(rightWallCells);
-// console.log(topWallCells);
-// console.log(bottomWallCells);
 
 // reflect snake body positon to the DOM, right now is [200, 201, 202]
 function renderSnake() {
@@ -174,13 +165,11 @@ function movingOnce() {
     renderFood();
     score++;
     updateMessage();
+    // generate level up sound once score equals 3 and 6
     if (score === 3) {
-      // generate level up sound once score equals 3 and 6
-      // audios.levelUp.currentTime = 0;
       audios.levelUp.play();
     }
     if (score === 6) {
-      // audios.levelUp.currentTime = 0;
       audios.levelUp.play();
     }
   } else {
@@ -283,7 +272,7 @@ closeBtnEl.addEventListener("click", () => {
 
 /*----------------------------- Additonal Elements -----------------------------*/
 
-// adjusting the audio
+// adjusting the audios
 audios.bgm.loop = true;
 audios.bgm.volume = 0.4;
 
@@ -292,10 +281,3 @@ audios.gameOver.volume = 1;
 
 audios.levelUp.volume = 0.6;
 audios.levelUp.loop = false;
-
-// const audios.click = document.querySelector("#btn");
-// const audios.food = document.querySelector("#getfood");
-// const bgmEl = document.querySelector("#bgm");
-// const audio.levelUp = document.querySelector("#levelUpSound");
-// const GameOverSoundEl = document.querySelector("#gameOverSound");
-// const musicBtnEl

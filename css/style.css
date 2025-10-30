@@ -4,8 +4,6 @@
   box-sizing: border-box;
 }
 
-/* @import url("https://fonts.googleapis.com/css2?family=Audiowide&family=Press+Start+2P&family=VT323&display=swap"); */
-
 body {
   color: white;
   font-family: Audiowide, sans-serif;
@@ -22,6 +20,11 @@ body {
   background-position: center;
 }
 
+h1 {
+  font-size: 4em;
+  margin-top: 50px;
+  letter-spacing: 3px;
+}
 .w {
   width: 530px;
   background-color: #453f7e;
@@ -51,7 +54,7 @@ body {
 }
 
 .food {
-  background-color: #db3b53;
+  background-color: #eb3f59;
   border: none;
 }
 
@@ -80,12 +83,6 @@ button:hover {
   box-shadow: 0 0 12px #00ffff;
   transform: scale(1.05);
   transition: 0.3s;
-}
-
-h1 {
-  font-size: 4em;
-  margin-top: 50px;
-  letter-spacing: 3px;
 }
 
 .header {
@@ -140,6 +137,12 @@ h3 {
   margin-top: 20px;
   padding: 8px 16px;
   cursor: pointer;
+}
+
+.instructions button:hover {
+  color: #00ffff;
+  transform: scale(1.05);
+  transition: 0.3s;
 }
 
 /* shadowing the object */
